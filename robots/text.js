@@ -17,7 +17,8 @@ async function robot(content) {
 
     function sanitizeContent(content) {
         const withoutBlankLines = removeBlankLines(content.sourceContentOriginal)
-        console.log(withoutBlankLines)
+        const withoutMarkdown = removeMarkdown(withoutBlankLines)
+        console.log(withoutMarkdown)
 
         function removeBlankLines(text) {
             const allLines = text.split('\n')
@@ -32,6 +33,18 @@ async function robot(content) {
 
             return withoutBlankLines
         }
+    }
+
+    function removeMarkdown(lines) {
+        const withoutMarkdown = lines.filter((line) => {
+            if (line.trim().startsWith('=')) {
+                return false
+            }
+
+            return true
+        })
+
+        return withoutMarkdown
     }
 }
 
