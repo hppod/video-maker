@@ -1,6 +1,14 @@
 const algorithmia = require('algorithmia')
 const algorithmiaKey = require('./../credentials/apiKey.json').apiKey
 const sentenceBoundaryDetection = require('sbd')
+const watsonApiKey = require('./../credentials/watson-nlu.json').apiKey
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js')
+
+var nlu = new NaturalLanguageUnderstandingV1({
+    iam_apiKey: watsonApiKey,
+    version: '2018-04-05',
+    url: 'https://gateway.watsonplatform.net/nautral-language-understanding/api/'
+})
 
 async function robot(content) {
     await fetchContentFromWikipedia(content)
