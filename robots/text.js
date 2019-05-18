@@ -6,10 +6,10 @@ function robot(content) {
     // sanitizeContent(content)
     // breakContentIntoSentences(content)
 
-    function fetchContentFromWikipedia(content) {
+    async function fetchContentFromWikipedia(content) {
         const algorithmiaAuthenticated = algorithmia(algorithmiaKey)
         const wikipediaAlgorithm = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
-        const wikipediaResponse = wikipediaAlgorithm.pipe(content.searchTerm)
+        const wikipediaResponse = await wikipediaAlgorithm.pipe(content.searchTerm)
         const wikipediaContent = wikipediaResponse.get()
         console.log(wikipediaContent)
     }
