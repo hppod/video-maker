@@ -2,6 +2,7 @@ const state = require('./state.js')
 const google = require('googleapis').google
 const customSearch = google.customsearch('v1')
 const googleSearchCredentials = require('./../credentials/google-search.json')
+const imageDownloader = require('image-downloader')
 
 async function robot() {
     const content = state.load()
@@ -50,7 +51,7 @@ async function robot() {
                         throw new Error('Imagem já foi baixada. Tentando baixar outra imagem....')
                     }
 
-                    //await downloadImage()
+                    await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`)
                     console.log(`> [${sentenceIndex}][${imageIndex}] Baixou imagem com sucesso ${imageUrl}`)
                     break
                 } catch (error) {
@@ -58,6 +59,13 @@ async function robot() {
                 }
             }
         }
+    }
+
+    async function downloadAndSave(url, fileName) {
+        return imageDownloader.image({
+            url, url,
+            dest: `./content/${fileName}`
+        })
     }
 }
 
