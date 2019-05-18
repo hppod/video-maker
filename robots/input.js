@@ -8,7 +8,7 @@ function robot() {
 
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
-    content.lang = "pt"
+    content.lang = "en"
     state.save(content)
 
     function askAndReturnSearchTerm() {
