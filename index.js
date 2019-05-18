@@ -8,7 +8,7 @@ async function start() {
 
     content.searchTerm = askAndReturnSearchTerm()
     content.prefix = askAndReturnPrefix()
-    content.lang = "pt-BR"
+    content.lang = "pt"
 
     await robots.text(content)
 
