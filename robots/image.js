@@ -11,7 +11,8 @@ async function robot() {
     // await fetchImagesOfAllSentences(content)
     // await downloadAllImages(content)
     // await convertAllImages(content)
-    await createAllSentenceImages(content)
+    // await createAllSentenceImages(content)
+    await createThumbnailYoutube()
 
     // state.save(content)
 
@@ -169,6 +170,21 @@ async function robot() {
                     }
 
                     console.log(`> Sentence created: ${outputFile}`)
+                    resolve()
+                })
+        })
+    }
+
+    async function createThumbnailYoutube() {
+        return new Promise((resolve, reject) => {
+            gm()
+                .in('./content/0-converted.png')
+                .write('./content/youtube-thumbnail.jpg', (error) => {
+                    if (error) {
+                        return reject(error)
+                    }
+
+                    console.log('> Creating Youtube thumbnail')
                     resolve()
                 })
         })
