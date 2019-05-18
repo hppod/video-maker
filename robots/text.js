@@ -18,7 +18,8 @@ async function robot(content) {
     function sanitizeContent(content) {
         const withoutBlankLinesAndMarkdown = removeBlankLinesAndMarkdown(content.sourceContentOriginal)
         const withoutDatesInParentheses = removeDateInParentheses(withoutBlankLinesAndMarkdown)
-        console.log(withoutDatesInParentheses)
+        
+        content.sourceContentSanitized = withoutDatesInParentheses
 
         function removeBlankLinesAndMarkdown(text) {
             const allLines = text.split('\n')
