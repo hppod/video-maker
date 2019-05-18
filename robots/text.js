@@ -42,6 +42,8 @@ async function robot(content) {
     }
 
     function breakContentIntoSentences(content) {
+        content.sentences = []
+
         const sentences = sentenceBoundaryDetection.sentences(content.sourceContentSanitized)
         sentences.forEach((sentence) => {
             content.sentences.push({
