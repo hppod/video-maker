@@ -1,5 +1,11 @@
 function robot(content){
-    console.log(`Recebi com sucesso o content: ${content.searchTerm}`)
+    fetchContentFromWikipedia(content)
+    // sanitizeContent(content)
+    // breakContentIntoSentences(content)
+
+    function fetchContentFromWikipedia(content){
+        
+    }
 }
 
 module.exports = robot
