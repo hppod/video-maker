@@ -1,10 +1,17 @@
-function robot(content){
+const algorithmia = require('algorithmia')
+const algorithmiaKey = require('./../credentials/apiKey.json').apiKey
+
+function robot(content) {
     fetchContentFromWikipedia(content)
     // sanitizeContent(content)
     // breakContentIntoSentences(content)
 
-    function fetchContentFromWikipedia(content){
-        
+    function fetchContentFromWikipedia(content) {
+        const algorithmiaAuthenticated = algorithmia(algorithmiaKey)
+        const wikipediaAlgorithm = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
+        const wikipediaResponse = wikipediaAlgorithm.pipe(content.searchTerm)
+        const wikipediaContent = wikipediaResponse.get()
+        console.log(wikipediaContent)
     }
 }
 
