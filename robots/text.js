@@ -3,7 +3,7 @@ const algorithmiaKey = require('./../credentials/apiKey.json').apiKey
 
 async function robot(content) {
     await fetchContentFromWikipedia(content)
-    // sanitizeContent(content)
+    sanitizeContent(content)
     // breakContentIntoSentences(content)
 
     async function fetchContentFromWikipedia(content) {
@@ -11,7 +11,27 @@ async function robot(content) {
         const wikipediaAlgorithm = algorithmiaAuthenticated.algo('web/WikipediaParser/0.1.2')
         const wikipediaResponse = await wikipediaAlgorithm.pipe(content.searchTerm)
         const wikipediaContent = wikipediaResponse.get()
-        console.log(wikipediaContent)
+
+        content.sourceContentOriginal = wikipediaContent.content
+    }
+
+    function sanitizeContent(content) {
+        const withoutBlankLines = removeBlankLines(content.sourceContentOriginal)
+        console.log(withoutBlankLines)
+
+        function removeBlankLines(text) {
+            const allLines = text.split('\n')
+
+            const withoutBlankLines = allLines.filter((line) => {
+                if (line.trim().length === 0) {
+                    return false
+                }
+
+                return true
+            })
+
+            return withoutBlankLines
+        }
     }
 }
 
