@@ -114,7 +114,7 @@ async function robot() {
         }).join('/n/n')
 
         const requestParameters = {
-            part: 'snipper, status',
+            part: 'snippet, status',
             requestBody: {
                 snippet: {
                     title: videoTitle,
