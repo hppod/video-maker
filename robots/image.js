@@ -5,6 +5,7 @@ const googleSearchCredentials = require('./../credentials/google-search.json')
 const imageDownloader = require('image-downloader')
 
 async function robot() {
+    console.log('> [image-robot] Starting...')
     const content = state.load()
 
     await fetchImagesOfAllSentences(content)
@@ -15,6 +16,7 @@ async function robot() {
     async function fetchImagesOfAllSentences(content) {
         for (const sentence of content.sentences) {
             const query = `${content.searchTerm} ${sentence.keywords[0]}`
+            console.log(`> [image-robot] Querying Google Images with: "${query}"`)
             sentence.images = await fetchGoogleAndReturnImagesLinks(query)
 
             sentence.googleSearchQuery = query
@@ -52,10 +54,10 @@ async function robot() {
                     }
 
                     await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`)
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Baixou imagem com sucesso ${imageUrl}`)
+                    console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Baixou imagem com sucesso ${imageUrl}`)
                     break
                 } catch (error) {
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Erro ao baixar a imagem (${imageUrl}): ${error}`)
+                    console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Erro ao baixar a imagem (${imageUrl}): ${error}`)
                 }
             }
         }
