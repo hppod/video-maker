@@ -5,6 +5,7 @@ const googleSearchCredentials = require('./../credentials/google-search.json')
 const imageDownloader = require('image-downloader')
 
 async function robot() {
+    console.log('> [image-robot] Starting...')
     const content = state.load()
 
     await fetchImagesOfAllSentences(content)
@@ -13,12 +14,20 @@ async function robot() {
     state.save(content)
 
     async function fetchImagesOfAllSentences(content) {
-        for (const sentence of content.sentences) {
-            const query = `${content.searchTerm} ${sentence.keywords[0]}`
-            sentence.images = await fetchGoogleAndReturnImagesLinks(query)
-
-            sentence.googleSearchQuery = query
-        }
+        for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
+            let query
+      
+            if (sentenceIndex === 0) {
+              query = `${content.searchTerm}`
+            } else {
+              query = `${content.searchTerm} ${content.sentences[sentenceIndex].keywords[0]}`
+            }
+      
+            console.log(`> [image-robot] Querying Google Images with: "${query}"`)
+      
+            content.sentences[sentenceIndex].images = await fetchGoogleAndReturnImagesLinks(query)
+            content.sentences[sentenceIndex].googleSearchQuery = query
+          }
     }
 
     async function fetchGoogleAndReturnImagesLinks(query) {
@@ -52,10 +61,10 @@ async function robot() {
                     }
 
                     await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`)
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Baixou imagem com sucesso ${imageUrl}`)
+                    console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Baixou imagem com sucesso ${imageUrl}`)
                     break
                 } catch (error) {
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Erro ao baixar a imagem (${imageUrl}): ${error}`)
+                    console.log(`> [image-robot] [${sentenceIndex}][${imageIndex}] Erro ao baixar a imagem (${imageUrl}): ${error}`)
                 }
             }
         }
@@ -63,7 +72,7 @@ async function robot() {
 
     async function downloadAndSave(url, fileName) {
         return imageDownloader.image({
-            url, url,
+            url: url,
             dest: `./content/${fileName}`
         })
     }
